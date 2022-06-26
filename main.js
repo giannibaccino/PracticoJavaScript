@@ -21,6 +21,21 @@
 })();
 
 (function () {
+  //clase pelota
+  self.Ball = function (x, y, radio, board) {
+    this.x = x;
+    this.y = y;
+    this.radio = radio;
+    this.speed_y = 0;
+    this.speed_x = 3;
+    this.board = board;
+
+    board.ball = this;
+    this.kind = "circle";
+  };
+})();
+
+(function () {
   //clase Barra
   //defino la dimencion de la barra y en donde lo voy a dibjar, osea la pizzarra
   self.Bar = function (x, y, width, height, board) {
@@ -41,11 +56,11 @@
       this.y += this.speed;
     },
     up: function () {
-      this.x -= this.speed;
+      this.y -= this.speed;
     },
-    toString: function(){
-        return "x: "+ this.x + " y: "+this.y; 
-    }
+    toString: function () {
+      return "x: " + this.x + " y: " + this.y;
+    },
   };
 })();
 
@@ -60,6 +75,10 @@
   };
 
   self.BoardView.prototype = {
+    clean: function () {
+      //hago que se limplie la animacion y no se arrastre, para que solo se vea la barrita de un tamaño
+      this.ctx.clearRect(0, 0, this.board.width, this.board.height);
+    },
     draw: function () {
       for (i = this.board.elements.length - 1; i >= 0; i--) {
         let elem = this.board.elements[i];
@@ -67,42 +86,66 @@
         draw(this.ctx, elem);
       }
     },
+    play: function () {
+      this.clean();
+      this.draw();
+    },
   };
 
   //defino un metodo dibujar
   function draw(ctx, element) {
-    //chequeo que exista un elemento kind
-    if (element !== null && element.hasOwnProperty("kind")) {
-      //dependiendo del tipo es como lo dibuja ejemplo un rectangulo
-      switch (element.kind) {
-        case "rectangle":
-          ctx.fillRect(element.x, element.y, element.width, element.height);
-          break;
-      }
+    //dependiendo del tipo es como lo dibuja ejemplo un rectangulo
+    switch (element.kind) {
+      case "rectangle":
+        ctx.fillRect(element.x, element.y, element.width, element.height);
+        break;
+      case "circle":
+        ctx.beginPath();
+        ctx.arc(element.x, element.y, element.radio, 0, 7);
+        ctx.fill();
+        ctx.closePath();
+        break;
     }
   }
 })();
 
+let board = new Board(800, 400);
+let canvas = document.getElementById("canvas");
+let bar = new Bar(15, 100, 40, 100, board);
+let bar2 = new Bar(750, 100, 40, 100, board);
+let board_view = new BoardView(canvas, board);
+let ball = new Ball(400,100, 10, board);
+
 //coloco los movimientos de las barras
 document.addEventListener("keydown", (ev) => {
+  console.log(ev.keyCode);
 
-  if(ev.keyCode == 87){
+  if (ev.keyCode == 87) {
+    ev.preventDefault();
     bar.up();
-  }else if(ev.keyCode == 40){
+    //KeyUp
+  } else if (ev.keyCode == 83) {
+    ev.preventDefault();
     bar.down();
+    //KeyDown
   }
-  console.log(bar.toString())
+  if (ev.keyCode == 38) {
+    ev.preventDefault();
+    bar2.up();
+    //W
+  } else if (ev.keyCode == 40) {
+    ev.preventDefault();
+    bar2.down();
+    //S
+  }
+
+  console.log("" + bar); //convierto el objeto a cadena
 });
 
-window.addEventListener("load", main);
+window.requestAnimationFrame(controller);
 
 //controlador
-function main() {
-  let board = new Board(800, 400);
-  let canvas = document.getElementById("canvas");
-  let bar = new Bar(15, 100, 40, 100, board);
-  let bar2 = new Bar(750, 100, 40, 100, board);
-  let board_view = new BoardView(canvas, board);
-
-  board_view.draw();
+function controller() {
+  board_view.play();
+  window.requestAnimationFrame(controller);
 }
