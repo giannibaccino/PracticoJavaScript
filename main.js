@@ -13,7 +13,9 @@
   //devuelvo la barra y la pelota
   self.Board.prototype = {
     get elements() {
-      let elements = this.bars; //barras laterales las que usamos para mover
+      let elements = this.bars.map(function (bar) {
+        return bar;
+      });
       elements.push(this.ball); //agrego la pelota
       return elements;
     },
@@ -29,9 +31,17 @@
     this.speed_y = 0;
     this.speed_x = 3;
     this.board = board;
+    this.direction = 1;
 
     board.ball = this;
     this.kind = "circle";
+  };
+
+  self.Ball.prototype = {
+    move: function () {
+      this.x += this.speed_x * this.direction;
+      this.y += this.speed_y;
+    },
   };
 })();
 
@@ -87,8 +97,11 @@
       }
     },
     play: function () {
-      this.clean();
-      this.draw();
+      if (this.board.playing) {
+        this.clean();
+        this.draw();
+        this.board.ball.move();
+      }
     },
   };
 
@@ -114,7 +127,7 @@ let canvas = document.getElementById("canvas");
 let bar = new Bar(15, 100, 40, 100, board);
 let bar2 = new Bar(750, 100, 40, 100, board);
 let board_view = new BoardView(canvas, board);
-let ball = new Ball(400,100, 10, board);
+let ball = new Ball(400, 100, 10, board);
 
 //coloco los movimientos de las barras
 document.addEventListener("keydown", (ev) => {
@@ -137,11 +150,16 @@ document.addEventListener("keydown", (ev) => {
     ev.preventDefault();
     bar2.down();
     //S
+  } else if (ev.keyCode == 32) {
+    ev.preventDefault();
+    board.playing = !board.playing;
   }
 
   console.log("" + bar); //convierto el objeto a cadena
 });
 
+//muestro por primera vez el board
+board_view.draw();
 window.requestAnimationFrame(controller);
 
 //controlador
