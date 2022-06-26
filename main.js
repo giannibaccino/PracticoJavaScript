@@ -1,34 +1,39 @@
-class Board {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-    this.playing = false;
-    this.game_over = false;
-    this.bars = [];
-    this.ball = null;
-  }
+(function(){
+    //creo la clase Board
 
-  getElements() {
-    let elements = this.bars;
-    elements.push(ball);
-    return elements;
-  }
-}
+    //self vale algo dependiendo del contexto en el que estes
+    self.Board = function(width, height){
+        this.width = width;
+        this.height = height
+        this.playing = false;//si se esta jugando
+        this.game_over = false;//si el juego termino
+        this.bars = [];
+        this.ball = null;
+    }
+    
+    self.Board.prototype= {
+        get elements(){
+            let elements = this.bars;//barras laterales las que usamos para mover
+            elements.push(this.ball);//agrego la pelota
+            return elements;
+        }
+    }
+})();
 
-class BoardView {
-  constructor(canvas, board) {
+(function(){
+   self.BoardView = function(canvas,board) {
     this.canvas = canvas;
-    this.canvas.width = board.width;
-    this.canvas.height = board.height;
+    this.canvas.width = board.width;//modifico el ancho del canvas
+    this.canvas.height = board.height//modifico el alto del canvas
     this.board = board;
-    this.ctx = canvas.getContext("2d");
-  }
-}
+    this.ctx = canvas.getContext("2d");//contexto
+   } 
+})();
 
-window.addEventListener("load", main);
+window.addEventListener("load",main);
 
-function main() {
-  let board = new Board(800, 400);
-  let canvas = document.getElementById("canvas");
-  let board_view = new BoardView(canvas, board);
+function main (){
+    let board = new Board(800,400);
+    let canvas = document.getElementById("canvas");
+    let board_view = new BoardView(canvas,board);
 }
