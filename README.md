@@ -1,6 +1,7 @@
 # PracticoJavaScript
 MVC practico JS
-### https://matisk8ter.github.io/PracticoJavaScript/
-### Preguntas:
+## Jugar aqui!
+### [PULSE AQUI PARA JUGAR](https://matisk8ter.github.io/PracticoJavaScript/)
+
 
 
