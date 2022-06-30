@@ -2,8 +2,8 @@
     font-family: 'Roboto', sans-serif;
 }
 .bod {
-    background-color: #b4f8ff;
-    background: linear-gradient(-900deg, rgba(45, 141, 250, 0.8), rgba(76, 211, 107, 0.8));
+
+    background: linear-gradient(-900deg, #93B5C6, #FFE3E3);
     width: 100%;
     height: 140vh;
 
@@ -31,8 +31,8 @@
 canvas{ 
    
     border:solid;
-    color: #9cf1fa;
-    background: linear-gradient(-90deg, rgba(72, 208, 236, 0.8), rgba(157, 245, 186, 0.8)),
+    color: #F3F1F5;
+    background: linear-gradient(-90deg, rgba(72, 208, 236, 0.8), #C4DFAA),
         url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqEVHoZahFmPyyubLLH4a_1yfDhJ2cxrkNckD0yUXstiKdSnu5DgqKlc4OIE6vQXNoWDE&usqp=CAU);
     background-size: cover;
     filter: alpha(opacity=60);
@@ -41,7 +41,7 @@ canvas{
     
 }
 span h3{
-    font-family: impact;
+    font-family: Arial, Helvetica, sans-serif;
     color: #2b3961;
     font-size: 35px;
     text-shadow: 0px 0px 5px #03f6f2;  
@@ -52,7 +52,7 @@ span h2{
 }
 span h1 {
     margin-bottom: 30px;
-    color: #5c6ea4;
+    color: #7F7C82;
     text-align: center;
     font-size: 60px;
     font-weight: 70px;
@@ -64,14 +64,7 @@ span p{
     font-family: Impact;
     font-size: 30px; 
 }
-.tarjeta{
-    padding-top: 10px;
-    margin: 10px;
-    background: linear-gradient(-900deg, rgba(69, 185, 248, 0.8), rgba(6, 218, 175, 0.8));
-    border-radius: 10%; 
-    width: 230px;
-    height: 140px;
-}
+
 .blue{
     color: #002183;
 }
