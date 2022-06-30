@@ -1,0 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+body {
+    background: #b4f8ff;
+ 
+}
+canvas{
+   
+    margin-left: 18rem;
+    border:solid;
+    color: #9cf1fa;
+    background-color: aquamarine;
+    background: linear-gradient(-900deg, rgba(72, 208, 236, 0.8), rgba(71, 71, 68, 0.8)),
+        url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqEVHoZahFmPyyubLLH4a_1yfDhJ2cxrkNckD0yUXstiKdSnu5DgqKlc4OIE6vQXNoWDE&usqp=CAU);
+    background-size: cover;
+    filter: alpha(opacity=60);
+    background-repeat: no-repeat;
+    text-shadow: 0px 0px 10px #171b25;
+    
+}
+span h1 {
+    color: #5c6ea4;
+    text-align: center;
+    
+    font-size: 60px;
+    font-weight: 40px;
+    text-shadow: 0px 0px 5px #ffed4c;  
+}
+span p{
+    text-align: center;
+    color: #2d364f ;
+    font-family: Impact;
+    font-size: 30px; 
+    
+}
+h1:hover{
+    color: rgb(4, 33, 68);
+}

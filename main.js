@@ -19,6 +19,12 @@
       elements.push(this.ball); //agrego la pelota
       return elements;
     },
+    get getWidth() {
+      return this.width;
+    },
+    get getHeight() {
+      return this.height;
+    },
   };
 })();
 
@@ -29,12 +35,12 @@
     this.y = y;
     this.radius = radius;
     this.speed_y = 0;
-    this.speed_x = 3;
+    this.speed_x = 5;
     this.board = board;
     this.direction = 1;
     this.bounce_angle = 0;
-    this.max_bounce_angle = Math.PI / 12;//para la colicion un calculo matematico
-    this.speed = 3;
+    this.max_bounce_angle = Math.PI / 12; //para la colicion un calculo matematico
+    this.speed = 5;
 
     board.ball = this;
     this.kind = "circle";
@@ -44,26 +50,38 @@
     move: function () {
       this.x += this.speed_x * this.direction;
       this.y += this.speed_y;
+
+      if (
+        this.y + this.radius > this.board.getHeight ||
+        this.y + this.radius <= 20
+      ) {
+        this.speed_y = -this.speed_y;
+      }
+      if(this.x + this.radius<0){
+        resetBall(this);
+      }else if(this.x + this.radius> this.board.getWidth){
+        resetBall(this);
+      }
     },
-    get width(){
-        return this.radius * 2;
+    get width() {
+      return this.radius * 2;
     },
-    get height(){
-        return this.radius * 2;
+    get height() {
+      return this.radius * 2;
     },
     //reacciona a la colision con  una barra que recibe como parametro
     collision: function (bar) {
       let relative_intersect_y = bar.y + bar.height / 2 - this.y;
-
       let normalized_intersect_y = relative_intersect_y / (bar.height / 2);
 
       this.bounce_angle = normalized_intersect_y * this.max_bounce_angle;
-      console.log(this.bounce_angle);
+
       this.speed_y = this.speed * -Math.sin(this.bounce_angle);
       this.speed_x = this.speed * Math.cos(this.bounce_angle);
 
-      if (this.x > this.board.width / 2) this.direction = -1;
-      else this.direction = 1;
+      if (this.x > this.board.width / 2) {
+        this.direction = -1;
+      } else this.direction = 1;
     },
   };
 })();
@@ -79,7 +97,7 @@
     this.board = board;
     this.board.bars.push(this); //accedo al board, a la barra y le agrego la barra lateral la cual usamos para jugar
     this.kind = "rectangle"; //para que el canvas dibuje un rectangulo
-    this.speed = 10; //velocidad
+    this.speed = 20; //velocidad
   };
 
   //modificamos el prototype de la funcion
@@ -116,17 +134,17 @@
       for (i = this.board.elements.length - 1; i >= 0; i--) {
         let elem = this.board.elements[i];
 
-        draw(this.ctx, elem);
+        draw(this.ctx, elem); //agregar comentario
       }
     },
     //colision entre objetos
-    check_collisions: function(){
-        for (var i = this.board.bars.length - 1; i >= 0; i--){
-            var bar = this.board.bars[i];
-            if(hit(bar, this.board.ball)){
-                this.board.ball.collision(bar);
-            }
+    check_collisions: function () {
+      for (var i = this.board.bars.length - 1; i >= 0; i--) {
+        var bar = this.board.bars[i];
+        if (hit(bar, this.board.ball)) {
+          this.board.ball.collision(bar);
         }
+      }
     },
     play: function () {
       if (this.board.playing) {
@@ -182,10 +200,12 @@
 
 let board = new Board(800, 400);
 let canvas = document.getElementById("canvas");
-let bar = new Bar(15, 100, 40, 100, board);
-let bar2 = new Bar(750, 100, 40, 100, board);
+let bar = new Bar(10, 120, 20, 120, board);
+let bar2 = new Bar(770, 120, 20, 120, board);
 let board_view = new BoardView(canvas, board);
 let ball = new Ball(400, 100, 10, board);
+
+let pausa = document.getElementById("p");
 
 //coloco los movimientos de las barras
 document.addEventListener("keydown", (ev) => {
@@ -212,13 +232,31 @@ document.addEventListener("keydown", (ev) => {
     ev.preventDefault();
     board.playing = !board.playing;
   }
+  if (!board.playing) {
+    pausa.innerHTML = "pausa";
+  } else {
+    pausa.innerHTML = "play";
+  }
 
   console.log("" + bar); //convierto el objeto a cadena
 });
+//SCORE
+function resetGameScore() {
+  scoreUserText.innerHTML = 0;
+  scoreUser2Text.innerHTML = 0;
+  scoreUser = 0;
+  scoreUser2 = 0;
+}
+function resetBall(ball) {
+  ball.x = ball.board.getWidth /2 ;
+  ball.y = ball.board.getHeight/2;
+  ball.speed = 5;
+  ball.speed_x = -ball.speed_x;
+}
 
 //muestro por primera vez el board
 board_view.draw();
-window.requestAnimationFrame(controller);
+window.requestAnimationFrame(controller); //me queda saber esto
 
 //controlador
 function controller() {
