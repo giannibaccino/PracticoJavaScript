@@ -7,25 +7,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Ping Pong</title>
-    
+
 
 </head>
 
 <body>
-    <span><h1>Pulsar espacio para jugar </h1> <p id="p"> STOP</p></span>
-    
-    <div class="container">
-        <div class="container"><p>player1</p><p>player2</p></div>
-        <h2 id="score1"></h2><h2 id="score2"></h2>
+    <span>
+        <h1>Pulsar espacio para jugar </h1>
+        <p id="p"> STOP</p>
+    </span>
+    <div class="firsCol">
+        <span>
+            <h3>JUGADOR 1</h3>
+            <h2>Score</h2>
+        </span>
+        <span>
+            <h3>JUGADOR 2</h3>
+            <h2>Score</h2>
+        </span>
+    </div>
+    <div class="cont">
+
+
+        <h2 id="score1"></h2>
+        <h2 id="score2"></h2>
         <canvas id="canvas">
-            
+
         </canvas>
     </div>
-    
+
     <script>
-        document.addEventListener("keydown",(e)=>{
+        document.addEventListener("keydown", (e) => {
             console.log(e.keydown)
-            if(e.keycode == 32){
+            if (e.keycode == 32) {
                 document.getElementById("p").innerHTML = "Pausa"
             }
         })
