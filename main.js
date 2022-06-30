@@ -87,7 +87,7 @@
         //-----------------AUMENTO LA PUNTUACION Y MUESTRO MENSAJES
         board.score2++;
         scre2.innerHTML = board.score2;
-        puntoPara.innerHTML = `<p class="animate__animated animate__pulse">Punto para el jugador 2</p>`;
+        puntoPara.innerHTML = `<p class="animate__animated animate__flipInX">Punto para el jugador 2</p>`;
         //------------FINALIZO EL JUEGO CUANDO SE LLEGA A 5 puntos
         if (board.score2 == 5) {
           //-------------RESETEO PUNTOS Y DETENGO EL JUEGO
@@ -103,7 +103,7 @@
         //---------------AUMENTO LA PUNTUACION Y MUESTRO MENSAJES
         board.score1++;
         scre1.innerHTML = board.score1;
-        puntoPara.innerHTML = `<p class="animate__animated animate__pulse">Punto para el jugador 1</p>`;
+        puntoPara.innerHTML = `<p class="animate__animated animate__flipInX">Punto para el jugador 1</p>`;
 
         //------------------FINALIZO EL JUEGO CUANDO SE LLEGA A 5 puntos
         if (board.score1 == 5) {
