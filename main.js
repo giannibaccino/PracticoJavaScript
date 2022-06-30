@@ -8,6 +8,8 @@
     this.game_over = false; //si el juego termino
     this.bars = [];
     this.ball = null;
+    this.score1 = 0;
+    this.score2 = 0;
   };
 
   //devuelvo la barra y la pelota
@@ -25,6 +27,19 @@
     get getHeight() {
       return this.height;
     },
+    resetBall: function () {
+      ball.x = 400;
+      ball.y = 100;
+      ball.speed=8;
+      ball.direction=1;
+      ball.speed_x = -ball.speed_x;
+    },
+    detengoElGame: function () {
+      //detengo el juego
+      setTimeout(() => {
+        board.playing = !board.playing;
+      }, 10);
+    },
   };
 })();
 
@@ -40,11 +55,19 @@
     this.direction = 1;
     this.bounce_angle = 0;
     this.max_bounce_angle = Math.PI / 12; //para la colicion un calculo matematico
-    this.speed = 5;
+    this.speed = 8;
 
     board.ball = this;
     this.kind = "circle";
   };
+
+  function resetScore() {
+    board.score1 = 0;
+    board.score2 = 0;
+    scre1.innerHTML = " ";
+    scre2.innerHTML = " ";
+    puntoPara.innerHTML = " ";
+  }
 
   self.Ball.prototype = {
     move: function () {
@@ -57,10 +80,39 @@
       ) {
         this.speed_y = -this.speed_y;
       }
-      if(this.x + this.radius<0){
-        resetBall(this);
-      }else if(this.x + this.radius> this.board.getWidth){
-        resetBall(this);
+      //me fijo si la pelota + la posicion en x supera lo que mide el board
+      if (this.x + this.radius < 0) {
+        //-------RESET DE LA BOLA
+        board.resetBall();
+        //-----------------AUMENTO LA PUNTUACION Y MUESTRO MENSAJES
+        board.score2++;
+        scre2.innerHTML = board.score2;
+        puntoPara.innerHTML = `punto para el jugador 2`;
+        //------------FINALIZO EL JUEGO CUANDO SE LLEGA A 5 puntos
+        if (board.score2 == 5) {
+          //-------------RESETEO PUNTOS Y DETENGO EL JUEGO
+          resetScore();
+          board.detengoElGame();
+          swal("EL GANADOR ES EL JUGADOR 2");
+        }
+
+        //me fijo si la pelota + la posicion en x supera lo que mide el board
+      } else if (this.x + this.radius > this.board.getWidth) {
+        //---------------RESETEO LA PELOTA
+        board.resetBall();
+        //---------------AUMENTO LA PUNTUACION Y MUESTRO MENSAJES
+        board.score1++;
+        scre1.innerHTML = board.score1;
+        puntoPara.innerHTML = `punto para el jugador 1`;
+
+        //------------------FINALIZO EL JUEGO CUANDO SE LLEGA A 5 puntos
+        if (board.score1 == 5) {
+          //-------------RESETEO PUNTOS Y DETENGO EL JUEGO
+          resetScore();
+          board.detengoElGame();
+          puntoPara.innerHTML = " ";
+          swal("EL GANADOR ES EL JUGADOR 1");
+        }
       }
     },
     get width() {
@@ -97,7 +149,7 @@
     this.board = board;
     this.board.bars.push(this); //accedo al board, a la barra y le agrego la barra lateral la cual usamos para jugar
     this.kind = "rectangle"; //para que el canvas dibuje un rectangulo
-    this.speed = 20; //velocidad
+    this.speed = 25; //velocidad
   };
 
   //modificamos el prototype de la funcion
@@ -241,18 +293,10 @@ document.addEventListener("keydown", (ev) => {
   console.log("" + bar); //convierto el objeto a cadena
 });
 //SCORE
-function resetGameScore() {
-  scoreUserText.innerHTML = 0;
-  scoreUser2Text.innerHTML = 0;
-  scoreUser = 0;
-  scoreUser2 = 0;
-}
-function resetBall(ball) {
-  ball.x = ball.board.getWidth /2 ;
-  ball.y = ball.board.getHeight/2;
-  ball.speed = 5;
-  ball.speed_x = -ball.speed_x;
-}
+
+let puntoPara = document.getElementById("puntoPara");
+let scre1 = document.getElementById("score1");
+let scre2 = document.getElementById("score2");
 
 //muestro por primera vez el board
 board_view.draw();
