@@ -38,6 +38,7 @@ canvas{
     filter: alpha(opacity=60);
     background-repeat: no-repeat;
     text-shadow: 0px 0px 10px #171b25;
+    color: #004634;
     
 }
 span h3{
