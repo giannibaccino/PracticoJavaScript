@@ -30,8 +30,8 @@
     resetBall: function () {
       ball.x = 400;
       ball.y = 100;
-      ball.speed=8;
-      ball.direction=1;
+      ball.speed = 8;
+      ball.direction = 1;
       ball.speed_x = -ball.speed_x;
     },
     detengoElGame: function () {
@@ -156,10 +156,14 @@
   //defino las funciones para subir y bajar las barras
   self.Bar.prototype = {
     down: function () {
-      this.y += this.speed;
+      if (this.y <= 270)
+        //colision de la barra contra el boardView
+        this.y += this.speed;
     },
     up: function () {
-      this.y -= this.speed;
+      if (this.y >= 10)
+        //colision de la barra contra el boardView
+        this.y -= this.speed;
     },
     toString: function () {
       return "x: " + this.x + " y: " + this.y;
@@ -238,13 +242,19 @@
     //dependiendo del tipo es como lo dibuja ejemplo un rectangulo
     switch (element.kind) {
       case "rectangle":
+        ctx.fillStyle = "#102e86";
         ctx.fillRect(element.x, element.y, element.width, element.height);
         break;
       case "circle":
+        let img = document.getElementById("img");
+        let pat = ctx.createPattern(img,"no-repeat")
+        ctx.fillStyle = img;
         ctx.beginPath();
         ctx.arc(element.x, element.y, element.radius, 0, 7);
+        ctx.fillStyle = pat;
         ctx.fill();
         ctx.closePath();
+
         break;
     }
   }
@@ -255,7 +265,7 @@ let canvas = document.getElementById("canvas");
 let bar = new Bar(10, 120, 20, 120, board);
 let bar2 = new Bar(770, 120, 20, 120, board);
 let board_view = new BoardView(canvas, board);
-let ball = new Ball(400, 100, 10, board);
+let ball = new Ball(400, 100, 15, board);
 
 let pausa = document.getElementById("p");
 
