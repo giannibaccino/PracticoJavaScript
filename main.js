@@ -295,9 +295,9 @@ document.addEventListener("keydown", (ev) => {
     board.playing = !board.playing;
   }
   if (!board.playing) {
-    pausa.innerHTML = "pausa";
+    pausa.innerHTML = "Pausa";
   } else {
-    pausa.innerHTML = "play";
+    pausa.innerHTML = "Jugando";
   }
 
   console.log("" + bar); //convierto el objeto a cadena
