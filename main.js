@@ -32,6 +32,7 @@
       ball.y = 100;
       ball.speed = 8;
       ball.direction = 1;
+      ball.bounce_angle = 0;
       ball.speed_x = -ball.speed_x;
     },
     detengoElGame: function () {
@@ -61,6 +62,7 @@
     this.kind = "circle";
   };
 
+  
   function resetScore() {
     board.score1 = 0;
     board.score2 = 0;
@@ -69,15 +71,14 @@
     puntoPara.innerHTML = " ";
   }
 
+  
   self.Ball.prototype = {
     move: function () {
       this.x += this.speed_x * this.direction;
       this.y += this.speed_y;
 
-      if (
-        this.y + this.radius > this.board.getHeight ||
-        this.y + this.radius <= 20
-      ) {
+      // obtengo la colision contra el techo o contra el suelo
+      if (this.y + this.radius > this.board.getHeight || this.y + this.radius <= 27 ) {
         this.speed_y = -this.speed_y;
       }
       //me fijo si la pelota + la posicion en x supera lo que mide el board
